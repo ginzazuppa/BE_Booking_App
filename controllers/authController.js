@@ -1,8 +1,8 @@
-import bcrypt from "bcrypt";
-import User from "../models/authModel.js";
-import jwt from "jsonwebtoken";
+const bcrypt = require("bcrypt");
+const User = require("../models/authModel.js");
+const jwt = require("jsonwebtoken");
 
-export const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res) => {
    try {
       const users = await User.find();
       res.json(users);
@@ -11,7 +11,7 @@ export const getAllUsers = async (req, res) => {
    }
 };
 
-export const registerUser = async (req, res) => {
+const registerUser = async (req, res) => {
    try {
       const { username, password } = req.body;
 
@@ -31,7 +31,7 @@ export const registerUser = async (req, res) => {
    }
 };
 
-export const loginUser = async (req, res) => {
+const loginUser = async (req, res) => {
    try {
       const { username, password } = req.body;
       const user = await User.findOne({ username });
@@ -51,4 +51,10 @@ export const loginUser = async (req, res) => {
    } catch (error) {
       res.status(500).json({ error: error.message });
    }
+};
+
+module.exports = {
+   getAllUsers,
+   registerUser,
+   loginUser,
 };

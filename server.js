@@ -1,16 +1,17 @@
-import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
-import authRoutes from "./routes/authRoutes.js";
-import eventRoutes from "./routes/eventRoutes.js";
-import docRoutes from "./routes/docRoutes.js";
-import dotenv from "dotenv";
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const authRoutes = require("./routes/authRoutes.js");
+const eventRoutes = require("./routes/eventRoutes.js");
+const dotenv = require("dotenv");
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 const db = process.env.MONGO_URI;
+// DB Local
+// const db = process.env.DBLOCAL;
 
 app.use(cors());
 
@@ -32,7 +33,10 @@ app.use(express.json());
 
 app.use("/auth", authRoutes);
 app.use("/api", eventRoutes);
-app.use("/api", docRoutes);
+
+app.get("/", (req, res) => {
+   res.send("<h1>Server telah aktif dan berjalan di http://localhost:" + port + "</h1>");
+});
 
 mongoose.set("strictQuery", false);
 mongoose.connect(db, {
